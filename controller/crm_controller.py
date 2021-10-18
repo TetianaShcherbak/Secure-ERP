@@ -15,7 +15,11 @@ def update_customer():
 
 
 def delete_customer():
-    view.print_error_message("Not implemented yet.")
+    user_id = view.get_input("Please provide valid user id: ")
+    if crm.handle_remove(user_id):
+        view.print_error_message(f'User id {user_id} removed.')
+    else:
+        view.print_error_message(f'User id {user_id} not found, no records removed.')
 
 
 def get_subscribed_emails():
@@ -36,7 +40,7 @@ def run_operation(option):
     elif option == 0:
         return
     else:
-        raise KeyError("There is no such option.")
+        raise KeyError()
 
 
 def display_menu():
@@ -56,5 +60,5 @@ def menu():
         try:
             operation = view.get_input("Select an operation")
             run_operation(int(operation))
-        except KeyError as err:
-            view.print_error_message(err)
+        except KeyError:
+            view.print_error_message("There is no such option!")
