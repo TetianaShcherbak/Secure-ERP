@@ -1,6 +1,8 @@
+import sys
 from view import terminal as view
 from controller import crm_controller, sales_controller, hr_controller
 
+sys.path.insert(1, "C:/Users/macie/projekty/secure-erp-python-larxand/")
 
 def load_module(option):
     if option == 1:

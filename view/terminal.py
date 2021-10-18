@@ -1,5 +1,4 @@
 def print_menu(title, list_options):
-    #TEST
     """Prints options in standard menu format like this:
 
     Main menu:
@@ -12,7 +11,17 @@ def print_menu(title, list_options):
         title (str): the title of the menu (first row)
         list_options (list): list of the menu options (listed starting from 1, 0th element goes to the end)
     """
-    pass
+    print(f"{title}:")
+    for item in range (len(list_options)):
+        if item == 0:
+            continue
+        else:
+            print(f"({item}) {list_options[item]}")
+    for item in range (len(list_options)):
+        if item == 0:
+            print(f"({item}) {list_options[item]}")
+        else:
+            continue
 
 
 def print_message(message):
@@ -21,7 +30,7 @@ def print_message(message):
     Args:
         message: str - the message
     """
-    pass
+    print(f"{message}")
 
 
 def print_general_results(result, label):
@@ -55,7 +64,7 @@ def get_input(label):
     Args:
         label: str - the label before the user prompt
     """
-    pass
+    return input(f"{label} :")
 
 
 def get_inputs(labels):
@@ -73,4 +82,4 @@ def print_error_message(message):
     Args:
         message: str - the error message
     """
-    pass
+    print(f"{message}")

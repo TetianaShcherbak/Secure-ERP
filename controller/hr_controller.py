@@ -1,6 +1,8 @@
+import sys
 from model.hr import hr
 from view import terminal as view
 
+sys.path.insert(1, "C:/Users/macie/projekty/secure-erp-python-larxand/")
 
 def list_employees():
     view.print_error_message("Not implemented yet.")
