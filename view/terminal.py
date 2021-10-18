@@ -1,6 +1,7 @@
 def print_menu(title, list_options):
     """Prints options in standard menu format like this:
 
+
     Main menu:
     (1) Store manager
     (2) Human resources manager
