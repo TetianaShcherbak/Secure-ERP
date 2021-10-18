@@ -1,4 +1,5 @@
 def print_menu(title, list_options):
+    #TEST
     """Prints options in standard menu format like this:
 
     Main menu:
