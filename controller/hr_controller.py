@@ -2,20 +2,34 @@ from model.hr import hr
 from view import terminal as view
 
 
-def list_employees():
-    view.print_error_message("Not implemented yet.")
 
+def list_employees():
+    
+    view.print_error_message("Test crud.")
+
+#print(list_employees())
 
 def add_employee():
-    view.print_error_message("Not implemented yet.")
+    
+    user_data = view.get_inputs(["Give Name:\t", "Date of birth:\t", "Department:\t", "Clearance:\t"])
+    if hr.add(user_data):
+        view.print_message(f"User's data has been created")
+    else:
+        view.print_error_message(f"User's data has not been created")
 
 
 def update_employee():
+    new_data_table = ["test_7","11111","22222","33333"] 
+    hr.update(new_data_table)
     view.print_error_message("Not implemented yet.")
 
 
 def delete_employee():
-    view.print_error_message("Not implemented yet.")
+    user_id = view.get_input("Please enter user ID")
+    if hr.remove(user_id):
+        view.print_message(f"User ID {user_id} has been removed")
+    else:
+        view.print_error_message(f"User ID {user_id} not found")
 
 
 def get_oldest_and_youngest():
