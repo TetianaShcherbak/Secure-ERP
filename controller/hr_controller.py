@@ -11,9 +11,13 @@ def list_employees():
 def add_employee():
     view.print_error_message("Not implemented yet.")
 
-
 def update_employee():
-    view.print_error_message("Not implemented yet.")
+    user_id = view.get_input("Please provide valid user id: ")
+    hr.handle_update()
+    '''    view.print_error_message(f'User id {user_id} updated sucessfully!.')
+    else:
+        view.print_error_message(f'User id {user_id} not found, no records updated.')
+    view.print_error_message("Not implemented yet.")'''
 
 
 def delete_employee():
