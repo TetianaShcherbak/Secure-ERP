@@ -1,5 +1,6 @@
 from model.crm import crm
 from view import terminal as view
+from controller import main_controller
 
 
 def list_customers():

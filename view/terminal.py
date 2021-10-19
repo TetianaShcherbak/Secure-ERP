@@ -27,7 +27,6 @@ def print_message(message):
     print(message)
 
 
-
 def print_general_results(result, label):
     """Prints out any type of non-tabular data.
     It should print numbers (like "@label: @value", floats with 2 digits after the decimal),
