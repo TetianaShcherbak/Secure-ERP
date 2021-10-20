@@ -7,7 +7,7 @@ def list_employees():
     database = hr.read()
 
     if database != []:
-        view.print_table(database)
+        view.print_table(database, hr.HEADERS)
     else:
         view.print_error_message("Database is empty!!!\n")
 

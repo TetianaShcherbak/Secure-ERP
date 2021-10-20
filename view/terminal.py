@@ -100,8 +100,9 @@ def convert_list_to_string(some_list):
     return converted_string
 
 
-def print_table(table):
-   
+def print_table(table,title_list):
+    table.insert(0,title_list)
+
     columns_width = get_list_of_column_width(table)
     table_width = calculate_table_width(columns_width)
     table_prepared_for_print = get_table_prepared_for_print(table, columns_width)
