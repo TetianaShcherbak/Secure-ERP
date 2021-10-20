@@ -1,41 +1,106 @@
+import datetime
 from model.hr import hr
 from view import terminal as view
+from datetime import datetime
 
 
 def list_employees():
-    view.print_error_message("Not implemented yet.")
+    data = hr.read()
+    view.print_table(data, hr.HEADERS)
 
 
 def add_employee():
-    view.print_error_message("Not implemented yet.")
+    user_data = view.get_inputs(["Give Name:\t", "Date of birth:\t", "Department:\t", "Clearance:\t"])
+    if hr.add(user_data):
+        view.print_message(f"User's data has been created")
+    else:
+        view.print_error_message(f"User's data has not been created")
 
 
 def update_employee():
-    view.print_error_message("Not implemented yet.")
+    user_id = view.get_input("Please enter user ID:\t")
+    
+    if hr.is_contained(user_id):
+        user_data = view.get_inputs(["Give Name:\t", "Date of birth:\t", "Department:\t", "Clearance:\t"]) 
+
+        user_data.insert(0,user_id)
+        hr.update(user_data)
+        view.print_message(f"Record with user ID {user_id} has been update.\n")
+    else:
+        view.print_error_message(f"User ID {user_id} not found!!!\n")
 
 
 def delete_employee():
-    view.print_error_message("Not implemented yet.")
+    user_id = view.get_input("Please enter user ID")
+    if hr.remove(user_id):
+        view.print_message(f"User ID {user_id} has been removed")
+    else:
+        view.print_error_message(f"User ID {user_id} not found")
 
 
 def get_oldest_and_youngest():
-    view.print_error_message("Not implemented yet.")
+    data = hr.read()
+    for _ in range(len(data) - 1):
+        for j in range(len(data) - 1):
+            if data[j][2] > data[j + 1][2]:
+                data[j], data[j + 1] = data[j + 1], data[j]
+
+    oldest_and_youngest = (data[0][1],data[-1][1])
+    view.print_general_results(oldest_and_youngest, 'Oldest and youngest employees are:')
 
 
 def get_average_age():
-    view.print_error_message("Not implemented yet.")
+    data = hr.read()
+    user_age = []
+    current_year = datetime.today().year
+    for entry in data:
+        user_age.append(current_year - int(entry[2][0:4]))
+    avg_age = sum(user_age) / len(user_age)
+    view.print_general_results(avg_age, 'Average age of employees is:')
 
 
 def next_birthdays():
-    view.print_error_message("Not implemented yet.")
+    data = hr.read()
+    # Return the names of employees who have birthdays within two weeks from the input date.
+    employees_with_nearest_birthdays = []
+    current_date = datetime.today().date()
+    current_month = current_date.month
+    for entry in data:
+        user_birthday = datetime.strptime(entry[2], '%Y-%m-%d').date()
+        user_month = user_birthday.month
+
+        if current_month > user_month:
+            check_date = current_date.replace(year = user_birthday.year - 1)
+        else:
+            check_date = current_date.replace(year = user_birthday.year)
+
+        date_difference = user_birthday - check_date
+        if date_difference.days > 0 and date_difference.days < 14:
+            employees_with_nearest_birthdays.append(entry[1])
+    
+    view.print_general_results(employees_with_nearest_birthdays, 'Employees who have birthdays within two weeks are:')
 
 
 def count_employees_with_clearance():
-    view.print_error_message("Not implemented yet.")
+    data = hr.read()
+    employees_with_clearance = 0
+    for entry in data:
+        if int(entry[4]) > 1:
+            employees_with_clearance += 1
+
+    view.print_general_results(employees_with_clearance, 'Number of employees who have at least the input clearance level is:')
 
 
 def count_employees_per_department():
-    view.print_error_message("Not implemented yet.")
+    data = hr.read()
+    employees_in_departments = {}
+    for entry in data:
+        if entry[3] in employees_in_departments.keys():
+            employees_in_departments[entry[3]] += 1
+        else:
+            employees_in_departments[entry[3]] = 1
+
+    view.print_general_results(employees_in_departments, 'Number of employees in departments are:')
 
 
 def run_operation(option):
