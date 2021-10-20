@@ -1,24 +1,61 @@
+import sys
 from model.sales import sales
 from view import terminal as view
+import operator
 
 
 def list_transactions():
-    view.print_error_message("Not implemented yet.")
+    database = sales.read()
+    if database != []:
+        view.print_table(database, sales.HEADERS)
+    else:
+        view.print_error_message("Database is empty!!!\n")
+    
 
 
 def add_transaction():
-    view.print_error_message("Not implemented yet.")
+    user_data = view.get_inputs(["Customer ID:\t", "Product:\t", "Price:\t", "Transaction date:\t"])
+    if sales.add(user_data):
+        view.print_message(f"New data has been added.\n")
+    else:
+        view.print_error_message(f"User's data has not been created!!!\n")
 
 
 def update_transaction():
-    view.print_error_message("Not implemented yet.")
+    user_id = view.get_input("Please enter user ID:\t")
+    if sales.is_contained(user_id):
+        user_data = view.get_inputs(["Customer ID:\t", "Product:\t", "Price:\t", "Transaction date:\t"]) 
+
+        user_data.insert(0,user_id)
+        sales.update(user_data)
+        view.print_message(f"Record with user ID {user_id} has been update.\n")
+    else:
+        view.print_error_message(f"User ID {user_id} not found!!!\n")
 
 
 def delete_transaction():
-    view.print_error_message("Not implemented yet.")
+    user_id = view.get_input("Please enter user ID:\t")
+    if sales.remove(user_id):
+        view.print_message(f"Record with user ID {user_id} has been removed.\n")
+    else:
+        view.print_error_message(f"User ID {user_id} not found!!!\n")
 
 
 def get_biggest_revenue_transaction():
+    database = sales.read()
+    
+    id_price_set = {line[2]: float(line[3]) for line in database}
+    # price = max(id_price_set.iteritems(), key=operator.itemgetter(1))[1]
+    price = max(id_price_set.values())
+
+    for value in id_price_set.values():
+        price = max(id_price_set.values())
+    for key, value in id_price_set.items():
+        if value == price:
+            id_of_cheapest = key
+    return id_of_cheapest
+    
+    
     view.print_error_message("Not implemented yet.")
 
 
@@ -76,6 +113,7 @@ def menu():
         display_menu()
         try:
             operation = view.get_input("Select an operation")
+            print("")
             run_operation(int(operation))
         except KeyError as err:
             view.print_error_message(err)
