@@ -5,7 +5,9 @@ def crud_create(file_name, data_to_add, user_id):
     database = data_manager.read_table_from_file(file_name) 
 
     for data in database:
+
         if data[0] == user_id:
+
             return False
 
     if data_to_add not in database:
@@ -22,23 +24,28 @@ def crud_read(file_name):
     return file_content
 
 
-def crud_update(file_name, user_id, new_data_table):
+def crud_update(file_name, new_data_table):
     database = data_manager.read_table_from_file(file_name)
+    user_id = new_data_table[0]
 
-    new_data_table[0] = user_id
+    for i, data in enumerate(database):
+
+        if data[0] == user_id:
+            database[i] = new_data_table
     
-    crud_delete(data_file=file_name, user_id=user_id)
-    crud_create(file_name, new_data_table,user_id)
+    data_manager.write_table_to_file(file_name, database, separator=';')
 
 
-def crud_delete(user_id, data_file):
-    data = data_manager.read_table_from_file(data_file)
+def crud_delete(file_name, user_id):
+    data = data_manager.read_table_from_file(file_name)
+
     for entry in data:
-        if entry[0] == user_id:
-            data.remove(entry)
-            data_manager.write_table_to_file(data_file, data, separator=';')
-            return True
-    return False
 
-#print(crud_update("model/hr/hr.csv", ["test_4","Cecil","1993-04-04","Sales","5"], ["test_7","1111","1993-04-04","Sales","111"]))
-###########
+        if entry[0] == user_id:
+
+            data.remove(entry)
+            data_manager.write_table_to_file(file_name, data, separator=';')
+
+            return True
+
+    return False

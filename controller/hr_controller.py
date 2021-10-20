@@ -1,36 +1,46 @@
-import sys
 from model.hr import hr
 from view import terminal as view
 
-sys.path.insert(1, "C:/Users/macie/projekty/secure-erp-python-larxand/")
+
 
 def list_employees():
-    
-    view.print_error_message("Test crud.")
+    database = hr.read()
 
-#print(list_employees())
+    if database != []:
+        view.print_table(database, hr.HEADERS)
+    else:
+        view.print_error_message("Database is empty!!!\n")
+
 
 def add_employee():
-    
     user_data = view.get_inputs(["Give Name:\t", "Date of birth:\t", "Department:\t", "Clearance:\t"])
+
     if hr.add(user_data):
-        view.print_message(f"User's data has been created")
+        view.print_message(f"New data has been added.\n")
     else:
-        view.print_error_message(f"User's data has not been created")
+        view.print_error_message(f"User's data has not been created!!!\n")
 
 
 def update_employee():
-    new_data_table = ["test_7","11111","22222","33333"] 
-    hr.update(new_data_table)
-    view.print_error_message("Not implemented yet.")
+    user_id = view.get_input("Please enter user ID:\t")
+    
+    if hr.is_contained(user_id):
+        user_data = view.get_inputs(["Give Name:\t", "Date of birth:\t", "Department:\t", "Clearance:\t"]) 
+
+        user_data.insert(0,user_id)
+        hr.update(user_data)
+        view.print_message(f"Record with user ID {user_id} has been update.\n")
+    else:
+        view.print_error_message(f"User ID {user_id} not found!!!\n")
 
 
 def delete_employee():
-    user_id = view.get_input("Please enter user ID")
+    user_id = view.get_input("Please enter user ID:\t")
+
     if hr.remove(user_id):
-        view.print_message(f"User ID {user_id} has been removed")
+        view.print_message(f"Record with user ID {user_id} has been removed.\n")
     else:
-        view.print_error_message(f"User ID {user_id} not found")
+        view.print_error_message(f"User ID {user_id} not found!!!\n")
 
 
 def get_oldest_and_youngest():
@@ -98,6 +108,7 @@ def menu():
         display_menu()
         try:
             operation = view.get_input("Select an operation")
+            print("")
             run_operation(int(operation))
         except KeyError as err:
             view.print_error_message(err)

@@ -5,19 +5,43 @@ from view import terminal as view
 sys.path.insert(1, "C:/Users/macie/projekty/secure-erp-python-larxand/")
 
 def list_customers():
-    view.print_error_message("Not implemented yet.")
+    database = crm.read()
+
+    if database != []:
+        view.print_table(database, crm.HEADERS)
+    else:
+        view.print_error_message("Database is empty!!!\n")
 
 
 def add_customer():
-    view.print_error_message("Not implemented yet.")
+    user_data = view.get_inputs(["Name:\t", "Email:\t", "Subscription:\t"])
+
+    if crm.add(user_data):
+        view.print_message(f"New data has been added.\n")
+    else:
+        view.print_error_message(f"User's data has not been created!!!\n")
 
 
 def update_customer():
-    view.print_error_message("Not implemented yet.")
+    user_id = view.get_input("Please enter user ID:\t")
+    
+    if crm.is_contained(user_id):
+        user_data = view.get_inputs(["Name:\t", "Email:\t", "Subscription:\t"]) 
+
+        user_data.insert(0,user_id)
+        crm.update(user_data)
+        view.print_message(f"Record with user ID {user_id} has been update.\n")
+    else:
+        view.print_error_message(f"User ID {user_id} not found!!!\n")
 
 
 def delete_customer():
-    view.print_error_message("Not implemented yet.")
+    user_id = view.get_input("Please enter user ID:\t")
+
+    if crm.remove(user_id):
+        view.print_message(f"Record with user ID {user_id} has been removed.\n")
+    else:
+        view.print_error_message(f"User ID {user_id} not found!!!\n")
 
 
 def get_subscribed_emails():
@@ -57,6 +81,7 @@ def menu():
         display_menu()
         try:
             operation = view.get_input("Select an operation")
+            print("")
             run_operation(int(operation))
         except KeyError as err:
             view.print_error_message(err)

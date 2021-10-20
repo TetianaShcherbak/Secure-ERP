@@ -31,6 +31,7 @@ def menu():
         display_menu()
         try:
             option = view.get_input("Select module")
+            print("")
             load_module(int(option))
         except KeyError:
             view.print_error_message("There is no such option!")
