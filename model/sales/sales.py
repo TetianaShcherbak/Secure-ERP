@@ -43,3 +43,30 @@ def is_contained(user_id):
 def remove(user_id):
 
    return crud.crud_delete(DATAFILE,user_id)
+
+def look_for_biggest_revenue_transaction(database):
+
+    id_price_set = {line[0]: float(line[3]) for line in database}
+    for value in id_price_set.values():
+        price = max(id_price_set.values())
+    for key, value in id_price_set.items():
+        if value == price:
+            id_of_max = key
+    return {str(id_of_max): str(price)}
+
+def look_for_biggest_revenue_product(database):
+    products_and_prices_dict = {}
+    for entry in database:
+        if entry[2] in products_and_prices_dict.keys():
+            products_and_prices_dict[entry[2]] += float(entry[3])
+        else:
+            products_and_prices_dict[entry[2]] = float(entry[3])
+    
+    for value in products_and_prices_dict.values():
+        max_revenue = max(products_and_prices_dict.values())
+        for key, value in products_and_prices_dict.items():
+            if value == max_revenue:
+                product_of_max = key
+        return {str(product_of_max): str(max_revenue)}
+    
+        

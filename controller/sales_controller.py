@@ -46,11 +46,23 @@ def delete_transaction():
 
 
 def get_biggest_revenue_transaction():
-    view.print_error_message("Not implemented yet.")
+    database = sales.read()
+
+    if database != []:
+        result = sales.look_for_biggest_revenue_transaction(database)
+        view.print_general_results(result, "Transaction(s) with biggest revenue is: ")
+    else:
+        view.print_error_message("Database is empty!!!\n")
 
 
 def get_biggest_revenue_product():
-    view.print_error_message("Not implemented yet.")
+    database = sales.read()
+
+    if database != []:
+        result = sales.look_for_biggest_revenue_product(database)
+        view.print_general_results(result, "Product with biggest revenue is: ")
+    else:
+        view.print_error_message("Database is empty!!!\n")
 
 
 def count_transactions_between():
