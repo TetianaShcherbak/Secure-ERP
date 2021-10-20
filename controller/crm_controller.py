@@ -1,21 +1,45 @@
 from model.crm import crm
 from view import terminal as view
-
+#checking
 
 def list_customers():
-    view.print_error_message("Not implemented yet.")
+    database = crm.read()
+
+    if database != []:
+        view.print_table(database, crm.HEADERS)
+    else:
+        view.print_error_message("Database is empty!!!\n")
 
 
 def add_customer():
-    view.print_error_message("Not implemented yet.")
+    user_data = view.get_inputs(["Give Name:\t", "Give email:\t", "Is subscribed:\t"])
+
+    if crm.add(user_data):
+        view.print_message(f"New data has been added.\n")
+    else:
+        view.print_error_message(f"User's data has not been created!!!\n")
 
 
 def update_customer():
-    view.print_error_message("Not implemented yet.")
+    user_id = view.get_input("Please enter customer ID:\t")
+    
+    if crm.is_contained(user_id):
+        user_data = view.get_inputs(["Give Name:\t", "Give email:\t", "Is subscribed:\t"]) 
+
+        user_data.insert(0,user_id)
+        crm.update(user_data)
+        view.print_message(f"Record with customer ID {user_id} has been update.\n")
+    else:
+        view.print_error_message(f"Customer ID {user_id} not found!!!\n")
 
 
 def delete_customer():
-    view.print_error_message("Not implemented yet.")
+    user_id = view.get_input("Please enter Customer ID:\t")
+
+    if crm.remove(user_id):
+        view.print_message(f"Record with Customer ID {user_id} has been removed.\n")
+    else:
+        view.print_error_message(f"Customer ID {user_id} not found!!!\n")
 
 
 def get_subscribed_emails():

@@ -2,20 +2,45 @@ from model.hr import hr
 from view import terminal as view
 
 
+
 def list_employees():
-    view.print_error_message("Not implemented yet.")
+    database = hr.read()
+
+    if database != []:
+        view.print_table(database, hr.HEADERS)
+    else:
+        view.print_error_message("Database is empty!!!\n")
 
 
 def add_employee():
-    view.print_error_message("Not implemented yet.")
+    user_data = view.get_inputs(["Give Name:\t", "Date of birth:\t", "Department:\t", "Clearance:\t"])
+
+    if hr.add(user_data):
+        view.print_message(f"New data has been added.\n")
+    else:
+        view.print_error_message(f"User's data has not been created!!!\n")
 
 
 def update_employee():
-    view.print_error_message("Not implemented yet.")
+    user_id = view.get_input("Please enter user ID:\t")
+    
+    if hr.is_contained(user_id):
+        user_data = view.get_inputs(["Give Name:\t", "Date of birth:\t", "Department:\t", "Clearance:\t"]) 
+
+        user_data.insert(0,user_id)
+        hr.update(user_data)
+        view.print_message(f"Record with user ID {user_id} has been update.\n")
+    else:
+        view.print_error_message(f"User ID {user_id} not found!!!\n")
 
 
 def delete_employee():
-    view.print_error_message("Not implemented yet.")
+    user_id = view.get_input("Please enter user ID:\t")
+
+    if hr.remove(user_id):
+        view.print_message(f"Record with user ID {user_id} has been removed.\n")
+    else:
+        view.print_error_message(f"User ID {user_id} not found!!!\n")
 
 
 def get_oldest_and_youngest():
