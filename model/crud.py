@@ -28,20 +28,12 @@ def crud_update(file_name, new_data_table):
     database = data_manager.read_table_from_file(file_name)
     user_id = new_data_table[0]
 
-    for data in database:
+    for i, data in enumerate(database):
 
         if data[0] == user_id:
-
-            database[data] = new_data_table
-            data_manager.write_table_to_file(file_name, data, separator=';')
-
-            return True
-        
-    return False
-        
-
-   #crud_delete(file_name, user_id)
-   #crud_create(file_name, new_data_table,user_id)
+            database[i] = new_data_table
+    
+    data_manager.write_table_to_file(file_name, database, separator=';')
 
 
 def crud_delete(file_name, user_id):

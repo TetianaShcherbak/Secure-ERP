@@ -23,12 +23,12 @@ def add_employee():
 
 def update_employee():
     user_id = view.get_input("Please enter user ID:\t")
-    user_data = view.get_inputs(["Give Name:\t", "Date of birth:\t", "Department:\t", "Clearance:\t"]) 
+    
+    if hr.is_contained(user_id):
+        user_data = view.get_inputs(["Give Name:\t", "Date of birth:\t", "Department:\t", "Clearance:\t"]) 
 
-    new_data_table = user_data.insert(0,user_id)
-    hr.update(new_data_table)
-
-    if hr.update(new_data_table):
+        user_data.insert(0,user_id)
+        hr.update(user_data)
         view.print_message(f"Record with user ID {user_id} has been update.\n")
     else:
         view.print_error_message(f"User ID {user_id} not found!!!\n")

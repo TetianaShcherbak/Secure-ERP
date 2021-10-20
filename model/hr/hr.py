@@ -36,3 +36,14 @@ def update(new_data_table):
 def remove(user_id):
 
    return crud.crud_delete(DATAFILE,user_id)
+
+
+def is_contained(user_id):
+    database = read()
+
+    column_for_check = []
+
+    for data in database:
+        column_for_check.append(data[0])
+    
+    return user_id in column_for_check
