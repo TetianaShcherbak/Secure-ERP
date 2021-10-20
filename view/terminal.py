@@ -1,30 +1,15 @@
 def print_menu(title, list_options):
-    """Prints options in standard menu format like this:
-
-    Main menu:
-    (1) Store manager
-    (2) Human resources manager
-    (3) Inventory manager
-    (0) Exit program
-
-    Args:
-        title (str): the title of the menu (first row)
-        list_options (list): list of the menu options (listed starting from 1, 0th element goes to the end)
-    """
     print(title)
+
     for i, option in enumerate(list_options):
         if i > 0:
             print(f'({i}) {option}')
+
     print(f'(0) {list_options[0]}')
 
 
 def print_message(message):
-    """Prints a single message to the terminal.
-
-    Args:
-        message: str - the message
-    """
-    print(message)
+    print(f"{message}\n")
 
 
 def print_general_results(result, label):
@@ -33,7 +18,7 @@ def print_general_results(result, label):
     lists/tuples (like "@label: \n  @item1; @item2"), and dictionaries
     (like "@label \n  @key1: @value1; @key2: @value2")
     """
-    pass
+    print(f"{label}\n {result}")
 
 
 # /--------------------------------\
@@ -43,37 +28,224 @@ def print_general_results(result, label):
 # |--------|------------|----------|
 # |   1    | Sidewinder | missile  |
 # \-----------------------------------/
-def print_table(table):
-    """Prints tabular data like above.
 
-    Args:
-        table: list of lists - the table to print out
-    """
-    pass
+def get_list_of_column_width(table):
+    columns_width = []
+
+    number_of_rows = len(table)
+    number_of_cols = len(table[0])
+    
+    for number_of_col in range(number_of_cols):
+        temp_list = []
+        for number_of_row in range(number_of_rows):
+            column_width = len(table[number_of_row][number_of_col]) 
+            column_width += 2
+            temp_list.append(column_width)
+        
+        max_column_width = max(temp_list)
+        
+        columns_width.append(max_column_width)
+
+    return columns_width
+
+
+def calculate_table_width(list_of_width):
+
+    inside_width = sum(list_of_width)
+    number_of_cols = len(list_of_width)
+    number_of_inside_partition = number_of_cols - 1
+
+    table_width = inside_width + number_of_inside_partition
+
+    return table_width
+
+
+def get_prepared_row_for_print(some_list, list_with_column_width, prepared_row_is_not_partition_row = True):
+    row_for_print = []
+
+    for i in range(len(some_list)):
+        column = some_list[i]
+        column_width = list_with_column_width[i]
+    
+        row_for_print.append("|")
+
+        if prepared_row_is_not_partition_row:
+            centered_data = column.center(column_width)
+            row_for_print.append(centered_data)
+        else: 
+            row_for_print.append("-"*column_width)
+        
+    row_for_print.append("|")
+
+    return row_for_print
+
+
+def get_table_prepared_for_print(some_table, list_of_columns_width):
+    table_prepared_for_print = []
+
+    for i in range(len(some_table)):
+        
+        row_for_print = get_prepared_row_for_print(some_table[i], list_of_columns_width)
+        delimiter_row = get_prepared_row_for_print(some_table[i], list_of_columns_width, False)
+
+        table_prepared_for_print.append(row_for_print)
+        table_prepared_for_print.append(delimiter_row)
+    
+    return table_prepared_for_print
+
+
+def convert_list_to_string(some_list):
+    converted_string = "".join(some_list)
+       
+    return converted_string
+
+
+def print_table(table,title_list):
+    table.insert(0,title_list)
+
+    columns_width = get_list_of_column_width(table)
+    table_width = calculate_table_width(columns_width)
+    table_prepared_for_print = get_table_prepared_for_print(table, columns_width)
+
+    print("/" + "-"*table_width + "\\")
+
+    for i in range(len(table_prepared_for_print)-1):
+        row = table_prepared_for_print[i]
+        string_for_print = convert_list_to_string(row)
+        print(string_for_print)
+
+    print("\\" + "-"*table_width + "/" + "\n")
 
 
 def get_input(label):
-    """Gets single string input from the user.
-
-    Args:
-        label: str - the label before the user prompt
-    """
-    return input(label)
+    return input(f"{label}:\t")
 
 
 def get_inputs(labels):
-    """Gets a list of string inputs from the user.
+    labels_list = []
 
-    Args:
-        labels: list - the list of the labels to be displayed before each prompt
-    """
-    pass
+    for label in labels:
+        labels_list.append(input(label))
+
+    return labels_list
 
 
 def print_error_message(message):
-    """Prints an error message to the terminal.
+    print(f"{message}\n")
 
-    Args:
-        message: str - the error message
-    """
-    print(message)
+# ============== PREVIOUS WORKING VERSION =================================
+
+# def print_menu(title, list_options):
+#     print(title)
+
+#     for i, option in enumerate(list_options):
+#         if i > 0:
+#             print(f'({i}) {option}')
+
+#     print(f'(0) {list_options[0]}')
+
+
+# def print_message(message):
+#     print(f"{message}\n")
+
+
+# def print_general_results(result, label):
+#     """Prints out any type of non-tabular data.
+#     It should print numbers (like "@label: @value", floats with 2 digits after the decimal),
+#     lists/tuples (like "@label: \n  @item1; @item2"), and dictionaries
+#     (like "@label \n  @key1: @value1; @key2: @value2")
+#     """
+#     pass
+
+
+# # /--------------------------------\
+# # |   id   |   product  |   type   |
+# # |--------|------------|----------|
+# # |   0    |  Bazooka   | portable |
+# # |--------|------------|----------|
+# # |   1    | Sidewinder | missile  |
+# # \-----------------------------------/
+# # table = [[id,product,type],[0,Bazooka,portable]]
+# def print_table(table):
+#     number_of_rows = len(table)
+#     number_of_cols = len(table[0])
+
+#     columns_width = []
+#     '''
+#     for column_number in range(number_of_cols):
+#         max_column_width = 0
+
+#         for row_number in range(number_of_rows):
+#             max_column_width = max(max_column_width,len(table[row_number][column_number]))
+#             columns_width.append(max_column_width)
+    
+#     table_width = sum(columns_width)
+#     print(columns_width)
+#     '''
+#     for number_of_col in range(number_of_cols):
+#         temp_list = []
+#         for number_of_row in range(number_of_rows):
+#             column_width = len(table[number_of_row][number_of_col]) 
+#             column_width += 2
+#             temp_list.append(column_width)
+        
+#         max_column_width = max(temp_list)
+        
+#         columns_width.append(max_column_width)
+
+#     table_width = sum(columns_width)
+
+#     print("/" + "-"*(table_width+(number_of_cols-1)) + "\\")
+
+#     table_prepared_to_print = []
+#     for i in range(len(table)):
+        
+#         row_for_print = []
+
+#         for j in range(len(table[i])):
+#             column = table[i][j]
+#             column_width = columns_width[j]
+#             centered_data = column.center(column_width)
+#             row_for_print.append("|")
+#             row_for_print.append(centered_data)
+        
+#         row_for_print.append("|")
+
+#         delimiter_row = []
+
+#         for j in range(len(table[i])):
+#             column_width = columns_width[j]
+#             centered_data = column.center(column_width)
+#             delimiter_row.append("|")
+#             delimiter_row.append("-"*column_width)
+        
+#         delimiter_row.append("|")
+
+#         table_prepared_to_print.append(row_for_print)
+#         table_prepared_to_print.append(delimiter_row)
+
+#     for i in range(len(table_prepared_to_print)-1):
+#         row = table_prepared_to_print[i]
+#         string_for_print = "".join(row)
+#         print(string_for_print)
+
+#     print("\\" + "-"*(table_width+(number_of_cols-1)) + "/" + "\n")
+
+# print(print_table(table = [["id","product","type",'ddd'],["0","Bazooka",'ddd',"portable"],["22",'ddd',"3333","456"]]))
+
+
+# def get_input(label):
+#     return input(f"{label}:\t")
+
+
+# def get_inputs(labels):
+#     labels_list = []
+
+#     for label in labels:
+#         labels_list.append(input(label))
+
+#     return labels_list
+
+
+# def print_error_message(message):
+#     print(f"{message}\n")
