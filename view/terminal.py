@@ -18,7 +18,7 @@ def print_general_results(result, label):
     lists/tuples (like "@label: \n  @item1; @item2"), and dictionaries
     (like "@label \n  @key1: @value1; @key2: @value2")
     """
-    pass
+    print(f"For {label} you made {result} ")
 
 
 # /--------------------------------\
@@ -92,7 +92,6 @@ def get_table_prepared_for_print(some_table, list_of_columns_width):
         table_prepared_for_print.append(delimiter_row)
     
     return table_prepared_for_print
-
 
 
 def convert_list_to_string(some_list):
