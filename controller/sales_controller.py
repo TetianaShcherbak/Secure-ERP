@@ -1,7 +1,6 @@
 from model.sales import sales
 from view import terminal as view
 
-
 def list_transactions():
     database = sales.read()
 
@@ -141,6 +140,7 @@ def menu():
         display_menu()
         try:
             operation = view.get_input("Select an operation")
+            print("")
             run_operation(int(operation))
         except KeyError as err:
             view.print_error_message(err)

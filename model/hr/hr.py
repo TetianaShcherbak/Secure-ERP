@@ -1,5 +1,4 @@
 """ Human resources (HR) module
-
 Data table structure:
     - id (string)
     - name (string)

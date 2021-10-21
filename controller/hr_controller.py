@@ -4,6 +4,7 @@ import datetime
 from datetime import datetime
 
 
+
 def list_employees():
     database = hr.read()
 
@@ -169,6 +170,7 @@ def menu():
         display_menu()
         try:
             operation = view.get_input("Select an operation")
+            print("")
             run_operation(int(operation))
         except KeyError as err:
             view.print_error_message(err)
