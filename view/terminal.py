@@ -1,5 +1,5 @@
 def print_menu(title, list_options):
-    print(title)
+    print(f"\n{title}\n")
 
     for i, option in enumerate(list_options):
         if i > 0:
@@ -9,16 +9,19 @@ def print_menu(title, list_options):
 
 
 def print_message(message):
-    print(f"{message}\n")
+    print(f"\n{message}\n")
 
 
 def print_general_results(result, label):
-    """Prints out any type of non-tabular data.
-    It should print numbers (like "@label: @value", floats with 2 digits after the decimal),
-    lists/tuples (like "@label: \n  @item1; @item2"), and dictionaries
-    (like "@label \n  @key1: @value1; @key2: @value2")
-    """
-    print(f"For {label} you made {result} ")
+    if type(result) == float:
+        print(f"\n{label} {result:.2f}")
+    elif type(result) == int:
+        print(f"\n{label} {result}")
+    elif type(result) == list or type(result) == tuple:
+        print(f"\n{label}")
+        print(f"{result}")        
+    elif type(result) == dict:
+        print(f"\n{label} \n {result.keys()}: {result.values()}")
 
 
 # /--------------------------------\

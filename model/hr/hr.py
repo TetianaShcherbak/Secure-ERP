@@ -47,3 +47,4 @@ def is_contained(user_id):
         column_for_check.append(data[0])
     
     return user_id in column_for_check
+

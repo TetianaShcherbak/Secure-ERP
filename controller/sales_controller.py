@@ -2,97 +2,102 @@ from model.sales import sales
 from view import terminal as view
 from model import data_manager
 
-sales_path = "model/sales/sales.csv"
+
 def list_transactions():
-    view.print_error_message("Not implemented yet.")
+    database = sales.read()
+
+    if database != []:
+        view.print_table(database, sales.HEADERS)
+    else:
+        view.print_error_message("Database is empty!!!\n")
 
 
 def add_transaction():
-    view.print_error_message("Not implemented yet.")
+    user_data = view.get_inputs(["Give Customer:\t", "Give Product:\t", "Give Price:\t", "Date(year-month-day):\t"])
+
+    if sales.add(user_data):
+        view.print_message(f"New data has been added.\n")
+    else:
+        view.print_error_message(f"User's data has not been created!!!\n")
 
 
 def update_transaction():
-    view.print_error_message("Not implemented yet.")
+    user_id = view.get_input("Please enter transaction ID")
+
+    if sales.is_contained(user_id):
+        user_data = view.get_inputs(["Give Customer:\t", "Give Product:\t", "Give Price:\t", "Date(year-month-day):\t"]) 
+
+        user_data.insert(0,user_id)
+        sales.update(user_data)
+
+        view.print_message(f"Record with transaction ID {user_id} has been update.\n")
+    else:
+        view.print_error_message(f"Transaction ID {user_id} not found!!!\n")
 
 
 def delete_transaction():
-    view.print_error_message("Not implemented yet.")
+    user_id = view.get_input("Please enter Transaction ID")
 
+    if sales.remove(user_id):
+        view.print_message(f"Record with Transaction ID {user_id} has been removed.\n")
+    else:
+        view.print_error_message(f"Transaction ID {user_id} not found!!!\n")
 
-#def get_biggest_revenue_transaction():
-#    view.print_error_message("Not implemented yet.")
 
 def get_biggest_revenue_transaction():
 
-    current_tab = data_manager.read_table_from_file(sales_path)
+    database = sales.read()
 
-    dates = []
+    if database != []:
+        result = sales.look_for_biggest_revenue_transaction(database)
+        view.print_general_results(result, "Transaction(s) with biggest revenue is: ")
+    else:
+        view.print_error_message("Database is empty!!!\n")
 
-    for line in current_tab:
-        if line[-1] not in dates:
-
-            dates.append(line[-1])
-
-    transactions = {}
-    for k, v in transactions:
-        transactions[k] = v
-
-    for date in dates:
-        price_per_day = 0
-
-        for line in current_tab:
-            if line[-1] == date:
-                price_per_day += float(line[-2])
-        transactions[date] = price_per_day
-
-    max_prize = max(transactions.values())
-
-    for k, v in transactions.items():
-        if v == max_prize:
-            most_succesfull_date = k
-
-    view.print_general_results(max_prize, most_succesfull_date)
-
-
-#def get_biggest_revenue_product():
-#    view.print_error_message("Not implemented yet.")
 
 def get_biggest_revenue_product():
-    current_tab = data_manager.read_table_from_file(sales_path)
+    database = sales.read()
 
-    products = []
+    if database != []:
+        result = sales.look_for_biggest_revenue_product(database)
+        view.print_general_results(result, "Product with biggest revenue is: ")
+    else:
+        view.print_error_message("Database is empty!!!\n")
 
-    for line in current_tab:
-        if line[2] not in products:
-
-            products.append(line[2])
-
-    transactions = {}
-    for k, v in transactions:
-        transactions[k] = v
-
-    for product in products:
-        price_per_day = 0
-
-        for line in current_tab:
-            if line[2] == product:
-                price_per_day += float(line[-2])
-        transactions[product] = price_per_day
-
-    max_prize = max(transactions.values())
-
-    for k, v in transactions.items():
-        if v == max_prize:
-            most_succesfull_date = k
-
-    view.print_general_results(max_prize, most_succesfull_date)
+        
 
 def count_transactions_between():
-    pass
+    first_date = view.get_input("Please, give first date")
+    second_date = view.get_input("Please, give second date")
 
+    dates_list = sales.get_column_from_data(column_index=-1)    
+    
+    first_date, second_date = sales.get_pair_sorted_by_order(first_date, second_date, dates_list)
+
+    start_counting_position = sales.get_index_of_element(first_date, dates_list)
+    end_counting_position = sales.get_index_of_element(second_date, dates_list, reverse=True)
+    
+    amount_of_transactions = end_counting_position - start_counting_position + 1
+
+    view.print_general_results(amount_of_transactions, "The amount of transactions between selected dates is: ")
+    
 
 def sum_transactions_between():
-    view.print_error_message("Not implemented yet.")
+
+    first_date = view.get_input("Please, give first date")
+    second_date = view.get_input("Please, give second date")
+
+    dates_list = sales.get_column_from_data(column_index=-1)    
+    
+    first_date, second_date = sales.get_pair_sorted_by_order(first_date, second_date, dates_list)
+
+    start_counting_position = sales.get_index_of_element(first_date, dates_list)
+    end_counting_position = sales.get_index_of_element(second_date, dates_list, reverse=True)
+    
+    transactions_list = sales.get_column_from_data(column_index=-2,type_data_in_column=float)
+    sum_of_transactions = sales.count_transactions_beetween(start_counting_position, end_counting_position, transactions_list)
+    
+    view.print_general_results(sum_of_transactions, "The sum of transactions between selected dates is: ")
 
 
 def run_operation(option):
