@@ -1,5 +1,4 @@
 """ Sales module
-
 Data table structure:
     - id (string)
     - customer id (string)

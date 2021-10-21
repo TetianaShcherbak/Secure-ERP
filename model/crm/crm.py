@@ -1,5 +1,4 @@
 """ Customer Relationship Management (CRM) module
-
 Data table structure:
     - id (string)
     - name (string)

@@ -4,7 +4,6 @@ import datetime
 from datetime import datetime
 
 
-
 def list_employees():
     database = hr.read()
 
