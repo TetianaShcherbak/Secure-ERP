@@ -4,3 +4,5 @@ model/hr/__pycache__/
 model/sales/__pycache__/
 model/__pycache__/
 view/__pycache__/
+test.py
+.gitignore
