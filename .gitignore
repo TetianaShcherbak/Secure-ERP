@@ -12,3 +12,11 @@ model/hr/__pycache__/hr.cpython-39.pyc
 model/sales/__pycache__/sales.cpython-39.pyc
 view/__pycache__/terminal.cpython-39.pyc
 test.py
+controller/__pycache__/
+model/crm/__pycache__/
+model/hr/__pycache__/
+model/sales/__pycache__/
+model/__pycache__/
+view/__pycache__/
+test.py
+.gitignore

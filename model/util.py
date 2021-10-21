@@ -15,10 +15,10 @@ def generate_id(number_of_small_letters=4,
     id_number = []
 
     for i in range(number_of_small_letters):
- 	    id_number.append(random.choice(small_letters))
+        id_number.append(random.choice(small_letters))
 
     for i in range(number_of_capital_letters):
- 	    id_number.append(random.choice(capital_letters))
+        id_number.append(random.choice(capital_letters))
 
     for i in range(number_of_digits):
         id_number.append(random.choice(digits))

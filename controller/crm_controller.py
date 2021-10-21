@@ -21,18 +21,15 @@ def update_customer():
     
     if crm.check_customer(customer_id):
         customer_data = view.get_inputs(["Enter customer name: ", "Enter customer email: ", "Enter customer subscription status (1 or 0): "])
-        
         customer_data.insert(0,customer_id)
         crm.update(customer_data)
-
         view.print_message('Database has been updated')
     else:
         view.print_message('Customer doesn\'t exist')
 
 
 def delete_customer():
-    customer_id = view.get_input("Please provide valid user id")
-
+    customer_id = view.get_input("Please provide valid user id: ")
     if crm.remove(customer_id):
         view.print_error_message(f'User id {customer_id} removed.')
     else:
@@ -41,10 +38,8 @@ def delete_customer():
 
 def get_subscribed_emails():
     data = crm.select_subscribed_emails()
-
     headers = ['Subscribed emails']
-    
-    view.print_table(data, headers)
+    view.print_data(data, headers)
 
 
 def run_operation(option):
@@ -61,7 +56,7 @@ def run_operation(option):
     elif option == 0:
         return
     else:
-        raise KeyError("There is no such option.")
+        raise KeyError()
 
 
 def display_menu():
@@ -82,5 +77,5 @@ def menu():
             operation = view.get_input("Select an operation")
             print("")
             run_operation(int(operation))
-        except KeyError as err:
-            view.print_error_message(err)
+        except KeyError:
+            view.print_error_message("There is no such option!")

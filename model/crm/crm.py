@@ -23,7 +23,6 @@ def add(data_to_add):
 
 
 def update(new_data_table):
-    
     return crud.crud_update(DATAFILE, new_data_table)
 
 

@@ -1,3 +1,4 @@
+import datetime
 from model.hr import hr
 from view import terminal as view
 import datetime
@@ -15,15 +16,14 @@ def list_employees():
 
 def add_employee():
     user_data = view.get_inputs(["Give Name:\t", "Date of birth:\t", "Department:\t", "Clearance:\t"])
-
     if hr.add(user_data):
-        view.print_message(f"New data has been added.\n")
+        view.print_message(f"User's data has been created")
     else:
-        view.print_error_message(f"User's data has not been created!!!\n")
+        view.print_error_message(f"User's data has not been created")
 
 
 def update_employee():
-    user_id = view.get_input("Please enter user ID")
+    user_id = view.get_input("Please enter user ID:\t")
     
     if hr.is_contained(user_id):
         user_data = view.get_inputs(["Give Name:\t", "Date of birth:\t", "Department:\t", "Clearance:\t"]) 
@@ -37,48 +37,37 @@ def update_employee():
 
 def delete_employee():
     user_id = view.get_input("Please enter user ID")
-
     if hr.remove(user_id):
-        view.print_message(f"Record with user ID {user_id} has been removed.\n")
+        view.print_message(f"User ID {user_id} has been removed")
     else:
-        view.print_error_message(f"User ID {user_id} not found!!!\n")
+        view.print_error_message(f"User ID {user_id} not found")
 
 
 def get_oldest_and_youngest():
     data = hr.read()
-
     for _ in range(len(data) - 1):
-
         for j in range(len(data) - 1):
-
             if data[j][2] > data[j + 1][2]:
                 data[j], data[j + 1] = data[j + 1], data[j]
 
     oldest_and_youngest = (data[0][1],data[-1][1])
-
     view.print_general_results(oldest_and_youngest, 'Oldest and youngest employees are:')
 
 
 def get_average_age():
-    user_age = []
-
     data = hr.read()
-    
+    user_age = []
     current_year = datetime.today().year
     for entry in data:
         user_age.append(current_year - int(entry[2][0:4]))
-
     avg_age = sum(user_age) / len(user_age)
-
     view.print_general_results(avg_age, 'Average age of employees is:')
 
 
 def next_birthdays():
+    data = hr.read()
     # Return the names of employees who have birthdays within two weeks from the input date.
     employees_with_nearest_birthdays = []
-
-    data = hr.read()
-
     current_date = datetime.today().date()
     current_month = current_date.month
     for entry in data:
@@ -98,10 +87,8 @@ def next_birthdays():
 
 
 def count_employees_with_clearance():
-    employees_with_clearance = 0
-
     data = hr.read()
-    
+    employees_with_clearance = 0
     for entry in data:
         if int(entry[4]) > 1:
             employees_with_clearance += 1
@@ -110,12 +97,9 @@ def count_employees_with_clearance():
 
 
 def count_employees_per_department():
-    employees_in_departments = {}
-
     data = hr.read()
-    
+    employees_in_departments = {}
     for entry in data:
-
         if entry[3] in employees_in_departments.keys():
             employees_in_departments[entry[3]] += 1
         else:
