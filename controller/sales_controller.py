@@ -1,6 +1,5 @@
 from model.sales import sales
 from view import terminal as view
-from model import data_manager
 
 
 def list_transactions():

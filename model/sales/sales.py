@@ -8,7 +8,7 @@ Data table structure:
     - transaction date (string): in ISO 8601 format (like 1989-03-21)
 """
 
-from model import data_manager, util
+from model import util
 from model import crud
 
 DATAFILE = "model/sales/sales.csv"
