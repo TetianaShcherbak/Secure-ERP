@@ -60,15 +60,48 @@ def get_biggest_revenue_transaction():
 
 
 def get_biggest_revenue_product():
-    view.print_error_message("Not implemented yet.")
+    database = sales.read()
 
+    if database != []:
+        result = sales.look_for_biggest_revenue_product(database)
+        view.print_general_results(result, "Product with biggest revenue is: ")
+    else:
+        view.print_error_message("Database is empty!!!\n")
+
+        
 
 def count_transactions_between():
-    view.print_error_message("Not implemented yet.")
+    first_date = view.get_input("Please, give first date")
+    second_date = view.get_input("Please, give second date")
 
+    dates_list = sales.get_column_from_data(column_index=-1)    
+    
+    first_date, second_date = sales.get_pair_sorted_by_order(first_date, second_date, dates_list)
+
+    start_counting_position = sales.get_index_of_element(first_date, dates_list)
+    end_counting_position = sales.get_index_of_element(second_date, dates_list, reverse=True)
+    
+    amount_of_transactions = end_counting_position - start_counting_position + 1
+
+    view.print_general_results(amount_of_transactions, "The amount of transactions between selected dates is: ")
+    
 
 def sum_transactions_between():
-    view.print_error_message("Not implemented yet.")
+
+    first_date = view.get_input("Please, give first date")
+    second_date = view.get_input("Please, give second date")
+
+    dates_list = sales.get_column_from_data(column_index=-1)    
+    
+    first_date, second_date = sales.get_pair_sorted_by_order(first_date, second_date, dates_list)
+
+    start_counting_position = sales.get_index_of_element(first_date, dates_list)
+    end_counting_position = sales.get_index_of_element(second_date, dates_list, reverse=True)
+    
+    transactions_list = sales.get_column_from_data(column_index=-2,type_data_in_column=float)
+    sum_of_transactions = sales.count_transactions_beetween(start_counting_position, end_counting_position, transactions_list)
+    
+    view.print_general_results(sum_of_transactions, "The sum of transactions between selected dates is: ")
 
 
 def run_operation(option):

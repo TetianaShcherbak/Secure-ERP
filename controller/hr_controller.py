@@ -1,12 +1,17 @@
 import datetime
 from model.hr import hr
 from view import terminal as view
+import datetime
 from datetime import datetime
 
 
 def list_employees():
-    data = hr.read()
-    view.print_table(data, hr.HEADERS)
+    database = hr.read()
+
+    if database != []:
+        view.print_table(database, hr.HEADERS)
+    else:
+        view.print_error_message("Database is empty!!!\n")
 
 
 def add_employee():
